@@ -9,22 +9,16 @@
 
 static const char *dirPath = "/home/tito/Downloads";
 
-void atoz(char *str, int fileName)
+void at_bash(char *str, int fileName)
 {
 	int i, a = 'a', A = 'A', z = 'z', Z = 'Z';
 	for (i = 0; i < fileName; i++)
 	{
-		if (str[i] >= a && str[i] <= z)
-		{
-			str[i] = str[i] - a + 1;
-			str[i] = 26 - str[i];
-			str[i] += a;
+		if (str[i] >= a && str[i] <= z){
+			str[i] = a + (z-str[i]);
 		}
-		else if (str[i] >= A && str[i] <= Z)
-		{
-			str[i] = str[i] - A + 1;
-			str[i] = 26 - str[i];
-			str[i] += A;
+		else if (str[i] >= A && str[i] <= Z){
+			str[i] = A + (Z-str[i]);
 		}
 	}
 }
@@ -42,7 +36,7 @@ void rot13(char *str, int fileName){
 	}
 }
 
-void encrypt1(char *str)
+void encrypt_atoz(char *str)
 {
 	if (strcmp(str, ".") == 0)
 		return;
@@ -52,18 +46,16 @@ void encrypt1(char *str)
 	int lastIndex = strlen(str);
 	for (int i = lastIndex; i >= 0; i--)
 	{
-		if (str[i] == '/')
-			continue;
 		if (str[i] == '.')
 		{
 			lastIndex = i;
 			break;
 		}
 	}
-	atoz(str, lastIndex);
+	at_bash(str, lastIndex);
 }
 
-void decrypt1(char *str)
+void decrypt_atoz(char *str)
 {
 	if (strcmp(str, ".") == 0)
 		return;
@@ -86,17 +78,15 @@ void decrypt1(char *str)
 			break;
 		}
 	}
-	atoz(fileName + 1, lastIndex);
+	at_bash(fileName, lastIndex);
 }
 
-void encrypt2(char *str)
+void encrypt_rx(char *str)
 {
 	if (strcmp(str, ".") == 0)
 		return;
 	if (strcmp(str, "..") == 0)
 		return;
-
-	encrypt1(str);
 	int lastIndex = strlen(str);
 	for (int i = lastIndex; i >= 0; i--)
 	{
@@ -106,10 +96,11 @@ void encrypt2(char *str)
 			break;
 		}
 	}
+	at_bash(str, lastIndex);
 	rot13(str, lastIndex);
 }
 
-void decrypt2(char *str)
+void decrypt_rx(char *str)
 {
 	if (strcmp(str, ".") == 0)
 		return;
@@ -131,20 +122,20 @@ void decrypt2(char *str)
 		}
 	}
 	rot13(fileName, lastIndex);
-	decrypt1(str);
+	at_bash(fileName, lastIndex);
 }
 
 static int xmp_getattr(const char *path, struct stat *stbuf)
 {
-	char *enc1 = strstr(path, "AtoZ_");
-	if (enc1 != NULL)
+	char *atoz_str = strstr(path, "AtoZ_");
+	if (atoz_str != NULL)
 	{
-		decrypt1(enc1);
+		decrypt_atoz(atoz_str);
 	}
-	char *enc2 = strstr(path, "RX_");
-	if (enc2 != NULL)
+	char *rx_str = strstr(path, "RX_");
+	if (rx_str != NULL)
 	{
-		decrypt2(enc2);
+		decrypt_rx(rx_str);
 	}
 	char newPath[500];
 	int res;
@@ -157,15 +148,15 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 
 static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
 {
-	char *enc1 = strstr(path, "AtoZ_");
-	if (enc1 != NULL)
+	char *atoz_str = strstr(path, "AtoZ_");
+	if (atoz_str != NULL)
 	{
-		decrypt1(enc1);
+		decrypt_atoz(atoz_str);
 	}
-	char *enc2 = strstr(path, "RX_");
-	if (enc2 != NULL)
+	char *rx_str = strstr(path, "RX_");
+	if (rx_str != NULL)
 	{
-		decrypt2(enc2);
+		decrypt_rx(rx_str);
 	}
 	char newPath[500];
 	if (strcmp(path, "/") == 0)
@@ -190,13 +181,13 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_
 		memset(&st, 0, sizeof(st));
 		st.st_ino = dir->d_ino;
 		st.st_mode = dir->d_type << 12;
-		if (enc1 != NULL)
+		if (atoz_str != NULL)
 		{
-			encrypt1(dir->d_name);
+			encrypt_atoz(dir->d_name);
 		}
-		if (enc2 != NULL)
+		if (rx_str != NULL)
 		{
-			encrypt2(dir->d_name);
+			encrypt_rx(dir->d_name);
 		}
 		res = (filler(buf, dir->d_name, &st, 0));
 		if (res != 0)
@@ -219,15 +210,15 @@ static int xmp_mkdir(const char *path, mode_t mode)
 		sprintf(newPath, "%s%s", dirPath, path);
 
 	int res = mkdir(newPath, mode);
-	char *enc1 = strstr(path, "AtoZ_");
-	if (enc1 != NULL)
+	char *atoz_str = strstr(path, "AtoZ_");
+	if (atoz_str != NULL)
 	{
-		decrypt1(enc1);
+		decrypt_atoz(atoz_str);
 	}
-	char *enc2 = strstr(path, "RX_");
-	if (enc2 != NULL)
+	char *rx_str = strstr(path, "RX_");
+	if (rx_str != NULL)
 	{
-		decrypt2(enc2);
+		decrypt_rx(rx_str);
 	}
 
 	if (res == -1)
@@ -266,16 +257,6 @@ static int xmp_mknod(const char *path, mode_t mode, dev_t rdev)
 
 static int xmp_unlink(const char *path)
 {
-	char *enc1 = strstr(path, "AtoZ_");
-	if (enc1 != NULL)
-	{
-		decrypt1(enc1);
-	}
-	char *enc2 = strstr(path, "RX_");
-	if (enc2 != NULL)
-	{
-		decrypt2(enc2);
-	}
 	char newPath[500];
 	if (strcmp(path, "/") == 0)
 	{
@@ -294,16 +275,6 @@ static int xmp_unlink(const char *path)
 
 static int xmp_rmdir(const char *path)
 {
-	char *enc1 = strstr(path, "AtoZ_");
-	if (enc1 != NULL)
-	{
-		decrypt1(enc1);
-	}
-	char *enc2 = strstr(path, "RX_");
-	if (enc2 != NULL)
-	{
-		decrypt2(enc2);
-	}
 	char newPath[500];
 	sprintf(newPath, "%s%s", dirPath, path);
 	int res;
