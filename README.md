@@ -11,6 +11,14 @@ Algoritma Encode yang digunakan adalah encode at bash chipper. Pada encode ini, 
 
 gambar atoz : 
 
+### Sebelum :
+
+
+
+### Sesudah :
+
+
+
 ## Soal nomer 2
 
 - Jika sebuah direktori dibuat dengan awalan “RX_[Nama]”, maka direktori tersebut akan menjadi direktori terencode beserta isinya dengan perubahan nama isi sesuai kasus nomor 1 dengan algoritma tambahan ROT13 (Atbash + ROT13).
@@ -20,6 +28,14 @@ gambar atoz :
 Pada nomer 2, encode digunakan dua kali. yang pertama encode yang digunakan pada nomer 1, kemudian ditambah encode rot13, dimana huruf akan ditambah/dikurangi 13. Jika dibawah n, maka akan ditambah 13 urutan, sedangkan jika di atas m akan dikurangi 13 urutan.
 
 gambar rx
+
+### Sebelum :
+
+
+
+### Sesudah :
+
+
 
 Kendala :
 - Kebingungan maksud dari nomer 3
