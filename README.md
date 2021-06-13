@@ -18,11 +18,11 @@ Algoritma Encode yang digunakan adalah encode at bash chipper. Pada encode ini, 
 
 ### Sebelum :
 
-
+![WhatsApp Image 2021-06-13 at 21 40 42](https://user-images.githubusercontent.com/77373958/121812142-fd2eed00-cc90-11eb-96ea-9afe4ad64208.jpeg)
 
 ### Sesudah :
 
-
+![WhatsApp Image 2021-06-13 at 21 43 40](https://user-images.githubusercontent.com/77373958/121812145-fef8b080-cc90-11eb-9566-ceba779d9356.jpeg)
 
 ## Soal nomer 2
 
