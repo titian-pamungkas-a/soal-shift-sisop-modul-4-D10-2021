@@ -9,7 +9,12 @@
 
 Algoritma Encode yang digunakan adalah encode at bash chipper. Pada encode ini, huruf akan dibalik sesuai urutan abjad. Contoh a->z, b->y, c->x, dll. Untuk itu, kita menggunakan :
 
-gambar atoz : 
+![WhatsApp Image 2021-06-13 at 21 40 42](https://user-images.githubusercontent.com/77373958/121812142-fd2eed00-cc90-11eb-96ea-9afe4ad64208.jpeg)
+![WhatsApp Image 2021-06-13 at 21 43 40](https://user-images.githubusercontent.com/77373958/121812145-fef8b080-cc90-11eb-9566-ceba779d9356.jpeg)
+![WhatsApp Image 2021-06-13 at 21 45 19](https://user-images.githubusercontent.com/77373958/121812146-ff914700-cc90-11eb-8352-d0709497369b.jpeg)
+![WhatsApp Image 2021-06-13 at 21 45 58](https://user-images.githubusercontent.com/77373958/121812147-0029dd80-cc91-11eb-85df-75fbbe12b15a.jpeg)
+![WhatsApp Image 2021-06-13 at 21 38 53](https://user-images.githubusercontent.com/77373958/121812148-0029dd80-cc91-11eb-9e94-10ffd169c3cb.jpeg)
+
 
 ### Sebelum :
 
